@@ -27,7 +27,8 @@ if(process.env.NODE_ENV === "production") {
 
 app.post("/post", async (req, res) => {
     console.log(req.body.name);
-    console.log(req);
+    
+    const queryRes = await searchFromQuery(req.body.name);
 
     res.json({
         status: queryRes.isFound ? "found" : "notFound", teaminfo: {
