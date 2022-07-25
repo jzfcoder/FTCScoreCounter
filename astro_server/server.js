@@ -25,18 +25,16 @@ if(process.env.NODE_ENV === "production") {
 }
 
 app.post("/post", async (req, res) => {
-    console.log(req);
+    const queryRes = await searchFromQuery(19819);
 
-    // const queryRes = await searchFromQuery(req.body.name);
-
-    // res.json({
-    //     status: queryRes.isFound ? "found" : "notFound", teaminfo: {
-    //         name: queryRes.name,
-    //         number: queryRes.number,
-    //         avgScore: queryRes.avgScore,
-    //         predictedScore: queryRes.predictedScore,
-    //     }
-    // });
+    res.json({
+        status: queryRes.isFound ? "found" : "notFound", teaminfo: {
+            name: queryRes.name,
+            number: queryRes.number,
+            avgScore: queryRes.avgScore,
+            predictedScore: queryRes.predictedScore,
+        }
+    });
 });
 
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
