@@ -15,7 +15,7 @@ const TournamentForm = () => {
 		let details = {
 			name: name.value,
 		};
-		let response = await fetch("http://astroball.herokuapp.com:7000/post", {
+		let response = await fetch("http://astro-test-prod.herokuapp.com:7000/post", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json;charset=utf-8",
