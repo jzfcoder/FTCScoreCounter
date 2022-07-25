@@ -1,0 +1,10 @@
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+app.use(express.json());
+
+app.listen(PORT, console.log(`Server started on port ${PORT}`));
+
+app.get("*", function(req, res) {
+    res.sendFile('astro_client/build/index.html', { root: "../" });
+});
