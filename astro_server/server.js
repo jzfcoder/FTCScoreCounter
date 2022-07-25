@@ -19,12 +19,15 @@ const credentials = {
 
 if(process.env.NODE_ENV === "production") {
     app.use(express.static('../astro_client/build'));
+    app.use(express.json());
     app.get('*', (req, res) => {
         req.sendFile(path.resolve('astro_client/build/index.html', { root: "../" }));
     });
 }
 
 app.post("/post", async (req, res) => {
+    console.log(req.body.name);
+    console.log(req);
     // const queryRes = await searchFromQuery(19819);
 
     // res.json({
