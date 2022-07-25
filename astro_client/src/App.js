@@ -1,25 +1,83 @@
-import logo from './logo.svg';
 import './App.css';
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          this is new content 
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Home />
     </div>
   );
 }
+
+function Home() {
+  return (
+    <>
+      <Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{
+        fullScreen: {
+          enable: false
+        },
+        background: {
+          color: {
+            value: "#17182f",
+          },
+        },
+        fpsLimit: 120,
+        particles: {
+          color: {
+            value: "#ffffff",
+          },
+          move: {
+            direction: "none",
+            enable: true,
+            outModes: {
+              default: "bounce",
+            },
+            random: true,
+            speed: 0.25,
+            straight: false,
+          },
+          number: {
+            density: {
+              enable: true,
+              area: 800,
+            },
+            value: 80,
+          },
+          opacity: {
+            value: 0.5,
+          },
+          shape: {
+            type: "circle",
+          },
+          size: {
+            value: { min: 1, max: 5 },
+          },
+        },
+        detectRetina: false,
+      }} style={{ zIndex: -100, position: "absolute", display: "block" }} />
+
+      <div style={{ zIndex: 100, paddingTop: "15%" }}>
+        <h1>Welcome to the AstroBall</h1>
+        <h2>A scoring and tournament simulator powered by AstroBruins</h2>
+
+        <span className="mainButton" to="/counter">Power Play Scoring Calculator</span>
+
+        <span className="mainButton" to="/tournament">Tournament Simulator</span>
+
+        <a className="donate" href="https://hack.ms/donate-astrobruins" target="_blank" rel="noreferrer">Donate</a>
+      </div>
+    </>
+  );
+}
+
+const particlesInit = async (main) => {
+  // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
+  // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+  // starting from v2 you can add only the features you need reducing the bundle size
+  await loadFull(main);
+};
+
+const particlesLoaded = (container) => { };
 
 export default App;
