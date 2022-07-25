@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  z-index: 100;
+  color: white;
 }
 
 .App-logo {
@@ -32,7 +34,310 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+h1 {
+  font-family: Verdana;
+  margin-block-start: 0px;
+  color: white;
+}
+
+h2 {
+  color: white;
+}
+
+/*
++----------------------------------------+
+| Homepage button settings               |
++----------------------------------------+
+*/
+.mainButton {
+  padding: 20px;
+  margin-right: 5px;
+  margin-left: 5px;
+  background: rgb(255, 255, 255);
+  display: inline-block;
+  box-shadow: 0 3px 15px -5px rgb(0 0 0 / 10%);
+  transition: all 0.3s;
+  border-radius: 10px;
+  border-width: 0px;
+  font-family: Verdana;
+  color: black !important;
+  text-decoration: none !important;
+}
+
+.mainButton:hover {
+  box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.13);
+  background: lightblue;
+  transition: all 0.3s;
+  transform: translateZ(10px) !important;
+  cursor: pointer;
+}
+
+.donate {
+  padding: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 10px;
+  background: rgb(255, 255, 255);
+  display: flow-root;
+  box-shadow: 0 3px 15px -5px rgb(0 0 0 / 10%);
+  transition: all 0.3s;
+  border-radius: 55px;
+  border-width: 0px;
+  color: black;
+  width: 100px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.donate:hover {
+  box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.13);
+  background: lightcoral;
+  transition: all 0.3s;
+  transform: translateZ(10px);
+  cursor: pointer;
+}
+
+/*
++----------------------------------------+
+| Tournament tab settings                |
++----------------------------------------+
+*/
+.searchInput {
+  width: 250px;
+  height: 30px;
+  position: relative;
+  border: 1px solid #CCC;
+  border-radius: 3px;
+  overflow: hidden;
+  display: table-cell;
+}
+
+.searchInput input {
+  border: none;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+  padding: 3px 15px 0px 4px;
+  font-size: 18px;
+  box-sizing: border-box;
+}
+
+.searchButton {
+  padding: 20px;
+  margin: 10px;
+  background: #FFF;
+  margin-top: 10px;
+  box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  border-radius: 10px;
+  border-width: 0px;
+  font-family: Verdana;
+}
+
+.searchButton:hover {
+  box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.13);
+  background: lightblue;
+  transition: all 0.3s;
+  transform: translateZ(10px) !important;
+  cursor: pointer;
+}
+
+th {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.bg {
+  background: white;
+  margin: 20px auto;
+  max-width: 80%;
+  height: 80%;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: left;
+  color: black;
+}
+
+td {
+  text-align: center;
+}
+
+.remove {
+  background: #F2F2F2;
+  height: 20px;
+  display: inline-block;
+  line-height: 1;
+  width: 20px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.remove:hover {
+  background: lightcoral;
+  cursor: pointer;
+}
+
+/*
++----------------------------------------+
+| Navigaton tab settings                 |
++----------------------------------------+
+*/
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-family: Verdana;
+}
+
+.tab button:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.tab button.active {
+  background-color: #ccc;
+}
+
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+  animation: fadeEffect 1s;
+}
+
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.total {
+  font-family: Verdana;
+  color: Red;
+  cursor: context-menu !important;
+}
+
+/*
++----------------------------------------+
+| Input Table Settings                   |
++----------------------------------------+
+*/
+.main {
+  background: white;
+  margin: 20px;
+  max-width: 80%;
+  max-height: 80%;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: left;
+  color: black;
+  position: absolute;
+}
+
+.table {
+  width: 80%;
+  display: table;
+}
+
+.row {
+  padding: 5px 5px 5px 5px;
+}
+
+.label {
+  display: table-cell;
+  padding: 5px 5px 5px 5px;
+  font-family: Verdana;
+  font-size: 18px;
+  color: black;
+}
+
+.numInput {
+  width: 45px;
+  height: 30px;
+  position: relative;
+  border: 1px solid #CCC;
+  border-radius: 3px;
+  overflow: hidden;
+  display: table-cell;
+}
+
+.numInput input {
+  border: none;
+  outline: 0;
+  width: 100%;
+  height: 100%;
+  padding: 3px 15px 0px 4px;
+  font-size: 18px;
+  box-sizing: border-box;
+}
+
+.arrow {
+  background: #F2F2F2;
+  height: 50%;
+  width: 16px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  cursor: pointer;
+}
+
+.arrow:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  transform: translate(-50%, -50%);
+}
+
+.arrow:hover {
+  background: #BABABA;
+}
+
+.arrow:active {
+  background: #CCC;
+}
+
+.arrow.down {
+  bottom: 0;
+  top: auto;
+  border-top: 1px solid #D6D6D6;
+}
+
+.arrow.up:after {
+  border-bottom: 4px solid #AFAFAF;
+}
+
+.arrow.down:after {
+  border-top: 4px solid #AFAFAF;
+}
+
+.arrow:hover:after {
+  border-top-color: #FFF;
+  border-bottom-color: #FFF;
 }

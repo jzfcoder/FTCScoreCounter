@@ -1,11 +1,19 @@
-import './App.css';
-import Particles from "react-tsparticles";
+import "./App.css";
+import React from "react";
 import { loadFull } from "tsparticles";
+import Particles from "react-tsparticles";
+import CounterForm from "./Components/CounterForm";
+import TournamentForm from "./Components/TournamentForm";
+import { Link, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <div className="App">
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="counter" element={<Counter />} />
+        <Route path="tournament" element={<Tournament />} />
+      </Routes>
     </div>
   );
 }
@@ -61,14 +69,22 @@ function Home() {
         <h1>Welcome to the AstroBall</h1>
         <h2>A scoring and tournament simulator powered by AstroBruins</h2>
 
-        <span className="mainButton" to="/counter">Power Play Scoring Calculator</span>
+        <Link className="mainButton" to="/counter">Power Play Scoring Calculator</Link>
 
-        <span className="mainButton" to="/tournament">Tournament Simulator</span>
+        <Link className="mainButton" to="/tournament">Tournament Simulator</Link>
 
         <a className="donate" href="https://hack.ms/donate-astrobruins" target="_blank" rel="noreferrer">Donate</a>
       </div>
     </>
   );
+}
+
+function Counter() {
+  return <CounterForm />
+}
+
+function Tournament() {
+  return <TournamentForm />
 }
 
 const particlesInit = async (main) => {
