@@ -105,13 +105,12 @@ async function searchFromQuery(number) {
     }
 
     avg = Math.round(sum / later.rows.length);
-    console.log(avg);
 
     return {
         isFound: true,
         name: now.rows[0].name,
         number: now.rows[0].teamnumber,
-        avgScore: avg === undefined ? 0 : avg,
+        avgScore: isNaN(avg) ? 0 : avg,
         predictedScore: 31
     }
 }
