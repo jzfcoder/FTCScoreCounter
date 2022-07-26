@@ -104,7 +104,7 @@ async function searchFromQuery(number) {
         }
     }
 
-    console.log(sum);
+    console.log(avg);
 
     avg = Math.round(sum / later.rows.length);
 
