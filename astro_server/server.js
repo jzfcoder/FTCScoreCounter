@@ -26,7 +26,6 @@ if(process.env.NODE_ENV === "production") {
 }
 
 app.post("/post", async (req, res) => {
-    console.log(req.body.name);
     
     const queryRes = await searchFromQuery(req.body.name);
 
@@ -67,7 +66,7 @@ async function searchFromQuery(number) {
     */
 
     var num = Number(number);
-    const pool = new Pool(credentials);
+    const pool = process.env.NODE_ENV === "production" ? new Pool(process.env.URI) : new Pool(credentials);
     const text = `SELECT * FROM public."participatingTeams" WHERE teamnumber = $1`;
     const values = [num];
 
@@ -158,7 +157,8 @@ async function getTeams() {
     console.log("Updating Team Database...");
     var start = Date.now();
 
-    const pool = new Pool(credentials);
+    const pool = process.env.NODE_ENV === "production" ? new Pool(process.env.URI) : new Pool(credentials);
+
     const text = `INSERT INTO public."participatingTeams"(teamnumber, name) VALUES ($1, $2)`;
 
     while (curPage < maxPage) {
@@ -179,7 +179,7 @@ async function getTeams() {
 
 async function newMatchGet() {
     const eventList = await callFTCAPI(`/v2.0/2021/events`);
-    const pool = new Pool(credentials);
+    const pool = process.env.NODE_ENV === "production" ? new Pool(process.env.URI) : new Pool(credentials);
 
     var matchQuery = await pool.query(`SELECT MAX(id) as max_id FROM public.matches`);
     var curId = matchQuery.rows[0].max_id == null ? matchQuery.rows[0].max_id : 0;
