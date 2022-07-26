@@ -1,12 +1,21 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { loadFull } from "tsparticles";
 import Particles from "react-tsparticles";
 import CounterForm from "./Components/CounterForm";
 import TournamentForm from "./Components/TournamentForm";
 import { Link, Route, Routes } from "react-router-dom";
+import ReactGA from 'react-ga';
+
+const TRACKING_ID = "UA-220438183-5";
+ReactGA.initialize(TRACKING_ID);
 
 function App() {
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
+
   return (
     <div className="App">
       <Routes>
