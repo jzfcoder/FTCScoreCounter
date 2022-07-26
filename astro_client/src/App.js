@@ -7,7 +7,7 @@ import TournamentForm from "./Components/TournamentForm";
 import { Link, Route, Routes } from "react-router-dom";
 import ReactGA from 'react-ga';
 
-const TRACKING_ID = "UA-220438183-5";
+const TRACKING_ID = "G-1F21T2210S";
 ReactGA.initialize(TRACKING_ID);
 
 function App() {
