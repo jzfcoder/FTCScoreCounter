@@ -17,7 +17,7 @@ const credentials = {
     port: process.env.PG_PORT,
 }
 
-if(process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
     app.use(express.static('../astro_client/build'));
     app.use(express.json());
     app.get('*', (req, res) => {
@@ -26,22 +26,30 @@ if(process.env.NODE_ENV === "production") {
 }
 
 app.post("/post", async (req, res) => {
-    
+
     const queryRes = await searchFromQuery(req.body.name);
 
+    // res.json({
+    //     status: queryRes.isFound ? "found" : "notFound", teaminfo: {
+    //         name: queryRes.name,
+    //         number: queryRes.number,
+    //         avgScore: queryRes.avgScore,
+    //         predictedScore: queryRes.predictedScore,
+    //     }
+    // });
     res.json({
-        status: queryRes.isFound ? "found" : "notFound", teaminfo: {
-            name: queryRes.name,
-            number: queryRes.number,
-            avgScore: queryRes.avgScore,
-            predictedScore: queryRes.predictedScore,
+        status: "found", teaminfo: {
+            name: "astroBruins",
+            number: 19819,
+            avgScore: 91,
+            predictedScore: 16,
         }
     });
 });
 
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
     res.sendFile('astro_client/build/index.html', { root: "../" });
 });
 
@@ -66,12 +74,12 @@ async function searchFromQuery(number) {
     */
 
     var num = Number(number);
-    const pool = process.env.NODE_ENV === "production" ? new Pool(process.env.URI) : new Pool(credentials);
+    const pool = new Pool(credentials);
     const text = `SELECT * FROM public."participatingTeams" WHERE teamnumber = $1`;
     const values = [num];
 
     const now = await pool.query(text, values);
-    
+
 
     if (now.rows.length == 0) {
         return {
@@ -89,12 +97,10 @@ async function searchFromQuery(number) {
     var avg = 0;
     var sum = 0;
 
-    if(later.rows.length > 0)
-    {
+    if (later.rows.length > 0) {
         const isRed = later.rows[0].redteams.includes(num);
-        for(var row of later.rows)
-        {
-            if(isRed) {
+        for (var row of later.rows) {
+            if (isRed) {
                 sum += Number(row.redscore);
             }
             else {
@@ -157,7 +163,7 @@ async function getTeams() {
     console.log("Updating Team Database...");
     var start = Date.now();
 
-    const pool = process.env.NODE_ENV === "production" ? new Pool(process.env.URI) : new Pool(credentials);
+    const pool = new Pool(credentials);
 
     const text = `INSERT INTO public."participatingTeams"(teamnumber, name) VALUES ($1, $2)`;
 
