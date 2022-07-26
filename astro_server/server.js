@@ -116,7 +116,11 @@ async function searchFromQuery(number) {
 }
 
 // API FUNCTIONS
-schedule.scheduleJob('0 0 * * *', async () => {
+schedule.scheduleJob('0 0 * * *', () => {
+    updateDB();
+});
+
+async function updateDB() {
     // update db from FTC teams API
 
     /*
@@ -135,10 +139,10 @@ schedule.scheduleJob('0 0 * * *', async () => {
     console.log("Clearing matches and participatingTeams tables...");
     const pool = new Pool(credentials);
 
-    const matchDelReq = pool.query(`DELETE FROM public.matches`);
+    const matchDelReq = await pool.query(`DELETE FROM public.matches`);
     console.log(matchDelReq);
 
-    const teamDelReq = pool.query(`DELETE FROM public."participatingTeams"`);
+    const teamDelReq = await pool.query(`DELETE FROM public."participatingTeams"`);
     console.log(teamDelReq);
 
     // get all teams & save to TEAMS table
@@ -147,10 +151,10 @@ schedule.scheduleJob('0 0 * * *', async () => {
     // get all events
     // use events to find all matches, save score and participating teams
     newMatchGet();
-});
+}
 
 async function getTeams() {
-    var curPage = 1;
+    var curPage = 0;
     var maxPage = 2;
 
     console.log("Updating Team Database...");
@@ -165,11 +169,14 @@ async function getTeams() {
         curPage = body.pageCurrent;
         maxPage = body.pageTotal;
 
-        body.teams.forEach(async (team) => {
+        for (var team of body.teams) {
             var values = [team.teamNumber, team.nameShort];
-            const now = await pool.query(text, values);
-            process.stdout.write(`Added team ${team.teamNumber}, ${team.nameShort}`);
-        });
+
+            if (!team.teamNumber || !team.nameShort) { console.log("team: " + team); }
+            else {
+                const now = await pool.query(text, values);
+            }
+        }
     }
 
     console.log("Database updated in " + (Date.now() - start) + " milliseconds");
@@ -188,7 +195,6 @@ async function newMatchGet() {
 
     for (const event of eventList.events) {
         if (event.published) {
-            process.stdout.write(`Current event ID: ${curId}\r`);
             var val = event.code;
             var text = `/v2.0/2021/matches/${val}`;
 
