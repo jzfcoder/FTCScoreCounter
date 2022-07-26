@@ -112,7 +112,7 @@ async function searchFromQuery(number) {
         isFound: true,
         name: now.rows[0].name,
         number: now.rows[0].teamnumber,
-        avgScore: avg,
+        avgScore: avg === undefined ? 0 : avg,
         predictedScore: 31
     }
 }
