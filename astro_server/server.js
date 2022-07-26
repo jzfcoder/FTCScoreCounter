@@ -178,7 +178,7 @@ async function getTeams() {
 
 async function newMatchGet() {
     const eventList = await callFTCAPI(`/v2.0/2021/events`);
-    const pool = process.env.NODE_ENV === "production" ? new Pool(process.env.URI) : new Pool(credentials);
+    const pool = new Pool(credentials);
 
     var matchQuery = await pool.query(`SELECT MAX(id) as max_id FROM public.matches`);
     var curId = matchQuery.rows[0].max_id == null ? matchQuery.rows[0].max_id : 0;
