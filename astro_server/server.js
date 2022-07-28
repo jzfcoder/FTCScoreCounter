@@ -117,7 +117,7 @@ async function searchFromQuery(number) {
 
 // API FUNCTIONS
 schedule.scheduleJob('0 0 * * *', () => {
-    updateDB();
+    // updateDB();
 });
 
 async function updateDB() {
