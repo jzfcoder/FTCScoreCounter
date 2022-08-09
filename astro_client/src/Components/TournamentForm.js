@@ -121,10 +121,10 @@ const TournamentForm = () => {
 					<tbody>
 						{
 							teams.sort((a, b) => {
-								if (a.avgScore < b.avgScore) {
+								if (a.predictedScore < b.predictedScore) {
 									return 1;
 								}
-								if (a.avgScore > b.avgScore) {
+								if (a.predictedScore > b.predictedScore) {
 									return -1;
 								}
 
