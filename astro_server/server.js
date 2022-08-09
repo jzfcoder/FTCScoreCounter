@@ -52,8 +52,7 @@ app.get("/", function (req, res) {
     res.sendFile('astro_client/build/index.html', { root: "../" });
 });
 
-function linearRegression(y, x)
-{
+function linearRegression(y, x) {
     var lr = {};
     var n = y.length;
     var sum_x = 0;
@@ -62,8 +61,8 @@ function linearRegression(y, x)
     var sum_xx = 0;
     var sum_yy = 0;
 
-    for (var i = 0;  i < y.length; i++)
-    {
+    for (var i = 0; i < y.length; i++) {
+
         sum_x += x[i];
         sum_y += y[i];
         sum_xy += (x[i] * y[i]);
@@ -71,9 +70,9 @@ function linearRegression(y, x)
         sum_yy += (y[i] * y[i]);
     }
 
-    lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
-    lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
-    lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
+    lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
+    lr['intercept'] = (sum_y - lr.slope * sum_x) / n;
+    lr['r2'] = Math.pow((n * sum_xy - sum_x * sum_y) / Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)), 2);
 
     return lr;
 }
@@ -143,8 +142,7 @@ async function searchFromQuery(number) {
 
     var known_x = [];
 
-    for (var i = 1; i <= later.rows.length; i++)
-    {
+    for (var i = 1; i <= later.rows.length; i++) {
         known_x.push(i);
     }
 
