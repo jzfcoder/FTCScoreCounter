@@ -143,7 +143,7 @@ async function searchFromQuery(number) {
 
     var known_x = [];
 
-    for (int i = 1; i <= later.rows.length; i++)
+    for (var i = 1; i <= later.rows.length; i++)
     {
         known_x.push(i);
     }
@@ -157,6 +157,6 @@ async function searchFromQuery(number) {
         number: now.rows[0].teamnumber,
         avgScore: isNaN(avg) ? 0 : avg,
         predictedScore: Math.round(pred_score),
-        confidence: Math.round(eq.r2 * 100);
+        confidence: Math.round(eq.r2 * 100)
     }
 }
