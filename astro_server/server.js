@@ -129,11 +129,11 @@ async function searchFromQuery(number) {
         for (var row of later.rows) {
             if (isRed) {
                 sum += Number(row.redscore);
-                scores.push(row.redscore);
+                scores.push(Number(row.redscore));
             }
             else {
                 sum += Number(row.bluescore);
-                scores.push(row.bluescore);
+                scores.push(Number(row.bluescore));
             }
         }
     }
