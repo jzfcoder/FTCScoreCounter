@@ -151,6 +151,8 @@ async function searchFromQuery(number) {
     const eq = linearRegression(scores, known_x);
     const pred_score = (eq.slope * (later.rows.length + 1)) + eq.intercept;
 
+    console.log(eq);
+
     return {
         isFound: true,
         name: now.rows[0].name,
