@@ -149,16 +149,12 @@ async function searchFromQuery(number) {
     const eq = linearRegression(scores, known_x);
     const pred_score = (eq.slope * (later.rows.length + 1)) + eq.intercept;
 
-    console.log(scores);
-    console.log(known_x);
-    console.log(eq);
-
     return {
         isFound: true,
         name: now.rows[0].name,
         number: now.rows[0].teamnumber,
         avgScore: isNaN(avg) ? 0 : avg,
         predictedScore: Math.round(pred_score),
-        confidence: Math.round(eq.r2 * 100)
+        confidence: Math.round(eq.r2 * 10000)
     }
 }
