@@ -155,6 +155,6 @@ async function searchFromQuery(number) {
         number: now.rows[0].teamnumber,
         avgScore: isNaN(avg) ? 0 : avg,
         predictedScore: Math.round(pred_score),
-        confidence: Math.round(eq.r2 * 10000)
+        confidence: parseFloat(eq.r2.toPrecision(3))
     }
 }
