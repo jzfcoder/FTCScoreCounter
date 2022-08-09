@@ -1,3 +1,6 @@
+// -- Production
+
+
 const express = require('express');
 const schedule = require('node-schedule');
 const { Pool } = require('pg');
@@ -38,6 +41,7 @@ app.post("/post", async (req, res) => {
             number: queryRes.number,
             avgScore: queryRes.avgScore,
             predictedScore: queryRes.predictedScore,
+            confidence: queryRes.confidence
         }
     });
 });
@@ -47,6 +51,32 @@ app.listen(PORT, console.log(`Server started on port ${PORT}`));
 app.get("/", function (req, res) {
     res.sendFile('astro_client/build/index.html', { root: "../" });
 });
+
+function linearRegression(y, x)
+{
+    var lr = {};
+    var n = y.length;
+    var sum_x = 0;
+    var sum_y = 0;
+    var sum_xy = 0;
+    var sum_xx = 0;
+    var sum_yy = 0;
+
+    for (var i = 0;  i < y.length; i++)
+    {
+        sum_x += x[i];
+        sum_y += y[i];
+        sum_xy += (x[i] * y[i]);
+        sum_xx += (x[i] * x[i]);
+        sum_yy += (y[i] * y[i]);
+    }
+
+    lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n*sum_xx - sum_x * sum_x);
+    lr['intercept'] = (sum_y - lr.slope * sum_x)/n;
+    lr['r2'] = Math.pow((n*sum_xy - sum_x*sum_y)/Math.sqrt((n*sum_xx-sum_x*sum_x)*(n*sum_yy-sum_y*sum_y)),2);
+
+    return lr;
+}
 
 // DATABASE FUNCTIONS
 async function searchFromQuery(number) {
@@ -82,187 +112,51 @@ async function searchFromQuery(number) {
             name: "--",
             number: -1,
             avgScore: -1,
-            predictedScore: -1
+            predictedScore: -1,
+            confidence: -1
         }
     }
 
+    // TODO: SORT BY DATE
     const later = await pool.query(`SELECT * FROM public.matches WHERE ${num}=ANY(blueteams) OR ${num}=ANY(redteams)`);
 
     await pool.end();
     var avg = 0;
     var sum = 0;
+    var scores = [];
 
     if (later.rows.length > 0) {
         const isRed = later.rows[0].redteams.includes(num);
         for (var row of later.rows) {
             if (isRed) {
                 sum += Number(row.redscore);
+                scores.push(row.redscore);
             }
             else {
                 sum += Number(row.bluescore);
+                scores.push(row.bluescore);
             }
         }
     }
 
     avg = Math.round(sum / later.rows.length);
 
+    var known_x = [];
+
+    for (int i = 1; i <= later.rows.length; i++)
+    {
+        known_x.push(i);
+    }
+
+    const eq = linearRegression(scores, known_x);
+    const pred_score = (eq.slope * (later.rows.length + 1)) + eq.intercept;
+
     return {
         isFound: true,
         name: now.rows[0].name,
         number: now.rows[0].teamnumber,
         avgScore: isNaN(avg) ? 0 : avg,
-        predictedScore: 31
+        predictedScore: Math.round(pred_score),
+        confidence: Math.round(eq.r2 * 100);
     }
-}
-
-// API FUNCTIONS
-schedule.scheduleJob('0 0 * * *', () => {
-    // updateDB();
-});
-
-async function updateDB() {
-    // update db from FTC teams API
-
-    /*
-    TEAMS
-    name | number
-
-    EVENTS
-    dbid | apitag | date
-
-    MATCHES
-    matchid | bluescore | redscore | blueteamnumbers | redteamnumbers
-
-    */
-
-    // clear MATCHES and TEAMS table
-    console.log("Clearing matches and participatingTeams tables...");
-    const pool = new Pool(credentials);
-
-    const matchDelReq = await pool.query(`DELETE FROM public.matches`);
-    console.log(matchDelReq);
-
-    const teamDelReq = await pool.query(`DELETE FROM public."participatingTeams"`);
-    console.log(teamDelReq);
-
-    // get all teams & save to TEAMS table
-    getTeams();
-
-    // get all events
-    // use events to find all matches, save score and participating teams
-    newMatchGet();
-}
-
-async function getTeams() {
-    var curPage = 0;
-    var maxPage = 2;
-
-    console.log("Updating Team Database...");
-    var start = Date.now();
-
-    const pool = new Pool(credentials);
-
-    const text = `INSERT INTO public."participatingTeams"(teamnumber, name) VALUES ($1, $2)`;
-
-    while (curPage < maxPage) {
-        const body = await callFTCAPI(`/v2.0/2021/teams?page=${curPage + 1}`);
-        curPage = body.pageCurrent;
-        maxPage = body.pageTotal;
-
-        for (var team of body.teams) {
-            var values = [team.teamNumber, team.nameShort];
-
-            if (!team.teamNumber || !team.nameShort) { console.log("team: " + team); }
-            else {
-                const now = await pool.query(text, values);
-            }
-        }
-    }
-
-    console.log("Database updated in " + (Date.now() - start) + " milliseconds");
-    await pool.end();
-}
-
-async function newMatchGet() {
-    const eventList = await callFTCAPI(`/v2.0/2021/events`);
-    const pool = new Pool(credentials);
-
-    var matchQuery = await pool.query(`SELECT MAX(id) as max_id FROM public.matches`);
-    var curId = matchQuery.rows[0].max_id == null ? matchQuery.rows[0].max_id : 0;
-
-    console.log("Updating Match DB...");
-    var start = Date.now();
-
-    for (const event of eventList.events) {
-        if (event.published) {
-            var val = event.code;
-            var text = `/v2.0/2021/matches/${val}`;
-
-            const eventBody = await callFTCAPI(text).catch((err) => { console.log("Error with " + val + ", " + err.message); });
-
-            for (const match of eventBody.matches) {
-                curId++;
-
-                var redTeam = [0, 0];
-                var blueTeam = [0, 0];
-
-                match.teams.forEach((team) => {
-                    if (team.station.charAt(0) === 'r' || team.station.charAt(0) === 'R') {
-                        redTeam.splice(0, 0, team.teamNumber);
-                    }
-                    else {
-                        blueTeam.splice(0, 0, team.teamNumber);
-                    }
-                });
-
-
-                var values = [curId, match.scoreBlueFinal, match.scoreRedFinal, match.actualStartTime, Number(redTeam[0]), Number(redTeam[1]), Number(blueTeam[0]), Number(blueTeam[1])];
-                var dbText = `INSERT INTO public.matches VALUES ($1, $2, $3, $4, ARRAY [CAST ($5 as numeric), CAST ($6 as numeric)], ARRAY [CAST ($7 as numeric), CAST ($8 as numeric)])`;
-
-                const req = await pool.query(dbText, values);
-            }
-        }
-    }
-
-    console.log("finished in " + (Date.now() - start) + " ms");
-    await pool.end();
-}
-
-function callFTCAPI(path) {
-    var options = {
-        'method': 'GET',
-        'hostname': 'ftc-api.firstinspires.org',
-        'path': path,
-        'headers': {
-            'Authorization': 'Basic anpmbGludDpBQTE3MkQ3OS05RDYyLTQ4REUtOEMwQi03Q0Q4OUE4QkREQkM='
-        },
-        'maxRedirects': 20
-    };
-
-    return new Promise((resolve, reject) => {
-        var req = https.request(options, function (res) {
-            var chunks = [];
-
-            res.on("data", function (chunk) {
-                chunks.push(chunk);
-            });
-
-            res.on("end", function (chunk) {
-                var body = Buffer.concat(chunks);
-                //console.log(body.toString());
-                if (res.statusCode != 200) {
-                    reject({ message: "request failed with error code " + res.statusCode + " and " + path });
-                }
-                else {
-                    resolve(JSON.parse(body));
-                }
-            });
-
-            res.on("error", function (error) {
-                reject({ message: "request failed with error code " + res.statusCode + " and " + path });
-            });
-        });
-
-        req.end();
-    })
 }

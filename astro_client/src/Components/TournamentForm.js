@@ -1,3 +1,5 @@
+// -- Production
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { loadFull } from "tsparticles";
@@ -112,6 +114,8 @@ const TournamentForm = () => {
 							<th>Team</th>
 							<th>Team Number</th>
 							<th>Avg Points</th>
+							<th>Predicted Score</th>
+							<th>Prediction Confidence</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -131,6 +135,8 @@ const TournamentForm = () => {
 										<td>{team.name}</td>
 										<td>{team.number}</td>
 										<td>{team.avgScore}</td>
+										<td>{team.predictedScore}</td>
+										<td>{team.confidence}</td>
 										<td><span onClick={() => handleRemove(team.number)} className="remove">&#215;</span></td>
 									</tr>
 								);
