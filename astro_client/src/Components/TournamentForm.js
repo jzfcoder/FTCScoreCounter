@@ -73,6 +73,7 @@ const TournamentForm = () => {
 	}
 
 	const changeSelect = (number) => {
+		console.log(number);
 		setSelected(number);
 	}
 
@@ -172,7 +173,7 @@ const TournamentForm = () => {
 						}
 					</tbody>
 				</table>
-				<p>{teams.filter(function(x) { return x.number === selected; }).name}</p>
+				<p>here: {teams.filter(function(x) { return x.number === selected; }).name}</p>
 			</div>
 		</>
 	);
