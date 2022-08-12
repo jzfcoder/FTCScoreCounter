@@ -48,7 +48,7 @@ const TournamentForm = () => {
 		});
 		setStatus("Add Team");
 
-		let result = await response.json().catch(alert("There was an error"));
+		let result = await response.json();
 		if (result.status === "found") {
 			console.log(result);
 			var exists = false;
@@ -172,7 +172,7 @@ const TournamentForm = () => {
 						}
 					</tbody>
 				</table>
-				<p>{teams.filter(function(x) { return x.number === selected; })}</p>
+				<p>{teams.filter(function(x) { return x.number === selected; }).name}</p>
 			</div>
 		</>
 	);
