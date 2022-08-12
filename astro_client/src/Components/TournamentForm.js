@@ -4,10 +4,32 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { loadFull } from "tsparticles";
 import Particles from "react-tsparticles";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+// import { Line } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const TournamentForm = () => {
 	const [status, setStatus] = useState("Add Team");
 	const [teams, setTeams] = useState([]);
+	const [selected, setSelected] = useState(-1);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -26,8 +48,9 @@ const TournamentForm = () => {
 		});
 		setStatus("Add Team");
 
-		let result = await response.json();
+		let result = await response.json().catch(alert("There was an error"));
 		if (result.status === "found") {
+			console.log(result);
 			var exists = false;
 			for (var team of teams) {
 				if (team.number === result.teaminfo.number) {
@@ -47,6 +70,10 @@ const TournamentForm = () => {
 		const newTeams = teams.filter((team) => team.number !== number);
 
 		setTeams(newTeams);
+	}
+
+	const changeSelect = (number) => {
+		setSelected(number);
 	}
 
 	return (
@@ -138,12 +165,14 @@ const TournamentForm = () => {
 										<td>{team.predictedScore}</td>
 										<td>{team.confidence}</td>
 										<td><span onClick={() => handleRemove(team.number)} className="remove">&#215;</span></td>
+										<td><span onClick={() => changeSelect(team.number)}>show graph</span></td>
 									</tr>
 								);
 							})
 						}
 					</tbody>
 				</table>
+				<p>{teams.filter(function(x) { return x.number === selected; })}</p>
 			</div>
 		</>
 	);

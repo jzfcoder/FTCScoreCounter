@@ -36,9 +36,12 @@ app.post("/post", async (req, res) => {
     const queryRes = await searchFromQuery(req.body.name);
 
     res.json({
-        status: queryRes.isFound ? "found" : "notFound", teaminfo: {
+        status: queryRes.isFound ? "found" : "notFound",
+        teaminfo: {
             name: queryRes.name,
             number: queryRes.number,
+            scores: queryRes.scores,
+            regScores: queryRes.regScores,
             avgScore: queryRes.avgScore,
             predictedScore: queryRes.predictedScore,
             confidence: queryRes.confidence
@@ -110,6 +113,8 @@ async function searchFromQuery(number) {
             isFound: false,
             name: "--",
             number: -1,
+            scores: [],
+            regScores: [],
             avgScore: -1,
             predictedScore: -1,
             confidence: -1
@@ -142,19 +147,28 @@ async function searchFromQuery(number) {
 
     var known_x = [];
 
-    for (var i = 1; i <= later.rows.length; i++) {
+    for (var i = 1; i <= later.rows.length; i++)
+    {
         known_x.push(i);
     }
 
     const eq = linearRegression(scores, known_x);
     const pred_score = (eq.slope * (later.rows.length + 1)) + eq.intercept;
 
+    for (var i = 0; i < known_x; i++)
+    {
+        known_x[i] = Math.round(eq.slope * (known_x[i]) + eq.intercept);
+    }
+
     return {
         isFound: true,
         name: now.rows[0].name,
         number: now.rows[0].teamnumber,
+        scores: scores,
+        regScores: known_x,
         avgScore: isNaN(avg) ? 0 : avg,
         predictedScore: Math.round(pred_score),
-        confidence: parseFloat(eq.r2.toPrecision(3))
+        confidence: parseFloat(eq.r2.toPrecision(3)),
+        scores: scores
     }
 }
