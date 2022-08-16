@@ -168,6 +168,8 @@ async function searchFromQuery(number) {
         known_x[i] = Math.round(eq.slope * (known_x[i]) + eq.intercept);
     }
 
+    console.log(known_x);
+
     return {
         isFound: true,
         name: now.rows[0].name,

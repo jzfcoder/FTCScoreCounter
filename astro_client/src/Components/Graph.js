@@ -32,7 +32,6 @@ class Graph extends Component {
 			for (var i = 0; i < this.props.team.scores.length; i++) {
 				labels.push(i + 1);
 			}
-			console.log(labels);
 		}
 		return (
 			<div style={{ float: "right", width: "700px" }}>
