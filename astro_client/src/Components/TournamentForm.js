@@ -192,7 +192,7 @@ const TournamentForm = () => {
 											<td>{team.avgScore}</td>
 											<td>{team.predictedScore}</td>
 											<td>{team.confidence}</td>
-											<td><span onClick={() => changeSelect(team.number)}>(show graph)</span></td>
+											<td><span onClick={() => changeSelect(team.number)} style={{cursor: "pointer"}}>(show graph)</span></td>
 											<td><span onClick={() => handleRemove(team.number)} className="remove">&#215;</span></td>
 										</tr>
 									);
