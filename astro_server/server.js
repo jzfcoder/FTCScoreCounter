@@ -165,7 +165,7 @@ async function searchFromQuery(number) {
 
     for (var i = 0; i < known_x.length; i++)
     {
-        known_x[i] = Math.round((lr.slope * known_x[i]) + lr.intercept);
+        known_x[i] = Math.round((eq.slope * known_x[i]) + eq.intercept);
     }
 
     return {
