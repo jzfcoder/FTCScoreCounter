@@ -55,6 +55,14 @@ app.get("/", function (req, res) {
     res.sendFile('astro_client/build/index.html', { root: "../" });
 });
 
+app.get("/logo192.png", function (req, res) {
+    res.sendFile('astro_server/logo192.png', { root: "../" });
+});
+
+app.get("/logo512.png", function (req, res) {
+    res.sendFile('astro_server/logo512.png', { root: "../" })
+});
+
 function linearRegression(y, x) {
     var lr = {};
     var n = y.length;

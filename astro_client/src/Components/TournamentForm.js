@@ -4,27 +4,34 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { loadFull } from "tsparticles";
 import Particles from "react-tsparticles";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import Graph from "./Graph"
+// import {
+// 	Chart as ChartJS,
+// 	CategoryScale,
+// 	LinearScale,
+// 	PointElement,
+// 	LineElement,
+// 	Title,
+// 	Tooltip,
+// 	Legend,
+// } from 'chart.js';
 // import { Line } from 'react-chartjs-2';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+// ChartJS.register(
+// 	CategoryScale,
+// 	LinearScale,
+// 	PointElement,
+// 	LineElement,
+// 	Title,
+// 	Tooltip,
+// 	Legend
+// );
+
+// function getRandomInt(min, max) {
+//     min = Math.ceil(min);
+//     max = Math.floor(max);
+//     return Math.floor(Math.random() * (max - min + 1)) + min;
+// }
 
 const TournamentForm = () => {
 	const [status, setStatus] = useState("Add Team");
@@ -48,9 +55,36 @@ const TournamentForm = () => {
 		});
 		setStatus("Add Team");
 
-		let result = await response.json();
+		let result = await response.json().catch({ status: "not found" });
+		// let result = {
+		// 	status: "found",
+		// 	teaminfo: {
+		// 		name: (Math.random() + 1).toString(36).substring(7),
+		// 		number: getRandomInt(1, 20000),
+		// 		scores: [
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 		],
+		// 		regScores: [
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 			getRandomInt(1, 350),
+		// 		],
+		// 		avgScore: getRandomInt(1, 350),
+		// 		predictedScore: getRandomInt(1, 400),
+		// 		confidence: getRandomInt(0, 100) 
+		// 	}
+		// };
 		if (result.status === "found") {
-			console.log(result);
 			var exists = false;
 			for (var team of teams) {
 				if (team.number === result.teaminfo.number) {
@@ -73,8 +107,8 @@ const TournamentForm = () => {
 	}
 
 	const changeSelect = (number) => {
-		console.log(number);
-		setSelected(number);
+		const selected = teams.filter((team) => team.number === number);
+		setSelected(selected[0]);
 	}
 
 	return (
@@ -136,7 +170,7 @@ const TournamentForm = () => {
 					<input type="text" id="name" className="searchInput" required />
 					<button type="submit" className="searchButton">{status}</button>
 				</form>
-				<table>
+				<table style={{display: "inline"}}>
 					<thead>
 						<tr style={{ textAlign: "center" }}>
 							<th>Team</th>
@@ -166,14 +200,14 @@ const TournamentForm = () => {
 										<td>{team.predictedScore}</td>
 										<td>{team.confidence}</td>
 										<td><span onClick={() => handleRemove(team.number)} className="remove">&#215;</span></td>
-										<td><span onClick={() => changeSelect(team.number)}>show graph</span></td>
+										<td><span onClick={() => changeSelect(team.number)}>(show graph)</span></td>
 									</tr>
 								);
 							})
 						}
 					</tbody>
 				</table>
-				<p>here: {teams.filter(function(x) { return x.number === selected; }).name}</p>
+				<Graph team={selected} />
 			</div>
 		</>
 	);
