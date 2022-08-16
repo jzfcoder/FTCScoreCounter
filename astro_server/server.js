@@ -163,12 +163,10 @@ async function searchFromQuery(number) {
     const eq = linearRegression(scores, known_x);
     const pred_score = (eq.slope * (later.rows.length + 1)) + eq.intercept;
 
-    for (var i = 0; i < known_x; i++)
+    for (var i = 0; i < known_x.length; i++)
     {
-        known_x[i] = Math.round(eq.slope * (known_x[i]) + eq.intercept);
+        known_x[i] = Math.round((lr.slope * known_x[i]) + lr.intercept);
     }
-
-    console.log(known_x);
 
     return {
         isFound: true,

@@ -45,7 +45,7 @@ class Graph extends Component {
 								},
 								title: {
 									display: true,
-									text: 'Chart.js Line Chart',
+									text: 'Team Match Data',
 								},
 							},
 						}
@@ -56,7 +56,7 @@ class Graph extends Component {
 							labels: labels,
 							datasets: [
 								{
-									label: 'Match Data',
+									label: 'Match Scores',
 									data: this.props.team.scores,
 									borderColor: 'rgb(255, 99, 132)',
 									backgroundColor: 'rgba(255, 99, 132, 0.5)',

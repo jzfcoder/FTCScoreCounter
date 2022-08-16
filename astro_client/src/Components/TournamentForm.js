@@ -5,32 +5,11 @@ import { Link } from "react-router-dom";
 import { loadFull } from "tsparticles";
 import Particles from "react-tsparticles";
 import Graph from "./Graph"
-// import {
-// 	Chart as ChartJS,
-// 	CategoryScale,
-// 	LinearScale,
-// 	PointElement,
-// 	LineElement,
-// 	Title,
-// 	Tooltip,
-// 	Legend,
-// } from 'chart.js';
-// import { Line } from 'react-chartjs-2';
-
-// ChartJS.register(
-// 	CategoryScale,
-// 	LinearScale,
-// 	PointElement,
-// 	LineElement,
-// 	Title,
-// 	Tooltip,
-// 	Legend
-// );
 
 // function getRandomInt(min, max) {
-//     min = Math.ceil(min);
-//     max = Math.floor(max);
-//     return Math.floor(Math.random() * (max - min + 1)) + min;
+// 	min = Math.ceil(min);
+// 	max = Math.floor(max);
+// 	return Math.floor(Math.random() * (max - min + 1)) + min;
 // }
 
 const TournamentForm = () => {
@@ -81,7 +60,7 @@ const TournamentForm = () => {
 		// 		],
 		// 		avgScore: getRandomInt(1, 350),
 		// 		predictedScore: getRandomInt(1, 400),
-		// 		confidence: getRandomInt(0, 100) 
+		// 		confidence: getRandomInt(0, 100)
 		// 	}
 		// };
 		if (result.status === "found") {
@@ -170,7 +149,7 @@ const TournamentForm = () => {
 					<input type="text" id="name" className="searchInput" required />
 					<button type="submit" className="searchButton">{status}</button>
 				</form>
-				<table style={{display: "inline"}}>
+				<table style={{ display: "inline" }}>
 					<thead>
 						<tr style={{ textAlign: "center" }}>
 							<th>Team</th>
@@ -192,17 +171,32 @@ const TournamentForm = () => {
 
 								return 0;
 							}).map((team) => {
-								return (
-									<tr key={team.number}>
-										<td>{team.name}</td>
-										<td>{team.number}</td>
-										<td>{team.avgScore}</td>
-										<td>{team.predictedScore}</td>
-										<td>{team.confidence}</td>
-										<td><span onClick={() => handleRemove(team.number)} className="remove">&#215;</span></td>
-										<td><span onClick={() => changeSelect(team.number)}>(show graph)</span></td>
-									</tr>
-								);
+								if (team.number === selected.number) {
+									return (
+										<tr key={team.number}>
+											<td>{team.name}</td>
+											<td>{team.number}</td>
+											<td>{team.avgScore}</td>
+											<td>{team.predictedScore}</td>
+											<td>{team.confidence}</td>
+											<td><span onClick={() => changeSelect(team.number)}>(showing graph)</span></td>
+											<td><span onClick={() => handleRemove(team.number)} className="remove">&#215;</span></td>
+										</tr>
+									);
+								}
+								else {
+									return (
+										<tr key={team.number}>
+											<td>{team.name}</td>
+											<td>{team.number}</td>
+											<td>{team.avgScore}</td>
+											<td>{team.predictedScore}</td>
+											<td>{team.confidence}</td>
+											<td><span onClick={() => changeSelect(team.number)}>(show graph)</span></td>
+											<td><span onClick={() => handleRemove(team.number)} className="remove">&#215;</span></td>
+										</tr>
+									);
+								}
 							})
 						}
 					</tbody>
