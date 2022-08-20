@@ -167,6 +167,7 @@ async function searchFromQuery(number) {
     {
         known_x[i] = Math.round((eq.slope * known_x[i]) + eq.intercept);
     }
+    known_x.push(pred_score);
 
     return {
         isFound: true,
