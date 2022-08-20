@@ -153,7 +153,7 @@ const TournamentForm = () => {
 				<form onSubmit={handleSubmit}>
 					<label htmlFor="name">Search By Team Number: </label>
 					<input type="text" id="name" className="searchInput" required />
-					<button type="submit" className="searchButton">{status}</button>
+					<button type="submit" className="searchButton" style={{ color: "black"}}>{status}</button>
 				</form>
 				<table style={{ display: "inline" }}>
 					<thead>
