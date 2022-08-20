@@ -25,6 +25,7 @@ const TournamentForm = () => {
 		let details = {
 			name: name.value,
 		};
+
 		let response = await fetch("/post", {
 			method: "POST",
 			headers: {
@@ -32,10 +33,12 @@ const TournamentForm = () => {
 			},
 			body: JSON.stringify(details),
 		});
+
 		setStatus("Add Team");
 
-		let result = await response.json().catch({ status: "not found" });
-		// let result = {
+		let result = {};
+
+		// result = {
 		// 	status: "found",
 		// 	teaminfo: {
 		// 		name: (Math.random() + 1).toString(36).substring(7),
@@ -63,6 +66,9 @@ const TournamentForm = () => {
 		// 		confidence: getRandomInt(0, 100)
 		// 	}
 		// };
+
+		result = await response.json().catch({ status: "not found" });
+
 		if (result.status === "found") {
 			var exists = false;
 			for (var team of teams) {
@@ -192,7 +198,7 @@ const TournamentForm = () => {
 											<td>{team.avgScore}</td>
 											<td>{team.predictedScore}</td>
 											<td>{team.confidence}</td>
-											<td><span onClick={() => changeSelect(team.number)} style={{cursor: "pointer"}}>(show graph)</span></td>
+											<td><span onClick={() => changeSelect(team.number)} style={{ cursor: "pointer" }}>(show graph)</span></td>
 											<td><span onClick={() => handleRemove(team.number)} className="remove">&#215;</span></td>
 										</tr>
 									);

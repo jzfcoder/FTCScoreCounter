@@ -160,6 +160,7 @@ th {
   max-width: 80%;
   height: 80%;
   min-height: 550px;
+  min-width: 550px;
   padding: 30px;
   border-radius: 10px;
   text-align: left;
