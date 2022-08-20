@@ -147,7 +147,7 @@ const TournamentForm = () => {
 					},
 				},
 				detectRetina: false,
-			}} style={{ zIndex: -100, position: "absolute", display: "block" }} />
+			}} style={{ zIndex: -100, position: "fixed", display: "block", width: "150%", height: "150%" }} />
 
 			<div className="bg">
 				<form onSubmit={handleSubmit}>
