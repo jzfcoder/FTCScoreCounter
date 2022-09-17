@@ -27,12 +27,12 @@ const credentials = {
 
 app.listen(PORT, HOST, console.log(`Server started on port ${PORT} with host ${HOST}`));
 
-	console.log("running on production");
-    app.use(express.static('../astro_client/build'));
-    app.use(express.json());
-    app.get('*', (req, res) => {
-        req.sendFile(path.resolve('astro_client/build/index.html', { root: "../" }));
-    });
+// console.log("running on production");
+app.use(express.static('../astro_client/build'));
+app.use(express.json());
+app.get('*', (req, res) => {
+    req.sendFile(path.resolve('astro_client/build/index.html', { root: "../" }));
+});
 
 app.post("/post", async (req, res) => {
     const queryRes = await searchFromQuery(req.body.name);
