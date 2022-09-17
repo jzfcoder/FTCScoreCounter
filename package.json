@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "childprocess": "^2.0.2",
     "create-react-app": "^5.0.1",
+    "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "follow-redirects": "^1.15.1",
     "https": "^1.0.0",

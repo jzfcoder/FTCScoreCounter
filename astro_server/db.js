@@ -1,7 +1,6 @@
 const { Pool } = require('pg');
 var https = require('follow-redirects').https;
-
-const path = require('path');
+require('dotenv').config();
 
 const credentials = {
     user: process.env.PG_USER,
@@ -9,10 +8,6 @@ const credentials = {
     database: process.env.PG_DATABASE,
     password: process.env.PG_PASSWORD,
     port: process.env.PG_PORT,
-    ssl: {
-        require: true,
-        rejectUnauthorized: false,
-    }
 }
 
 updateDB();

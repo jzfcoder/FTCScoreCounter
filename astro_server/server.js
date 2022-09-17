@@ -1,11 +1,9 @@
 // -- Production
 
-
 const express = require('express');
 const schedule = require('node-schedule');
 const { Pool } = require('pg');
-
-var https = require('follow-redirects').https;
+const childProcess = require('child_process');
 
 const path = require('path');
 
@@ -27,7 +25,8 @@ const credentials = {
 
 app.listen(PORT, HOST, console.log(`Server started on port ${PORT} with host ${HOST}`));
 
-// console.log("running on production");
+console.log("running on " + process.env.NODE_ENV);
+
 app.use(express.static('../astro_client/build'));
 app.use(express.json());
 app.get('*', (req, res) => {
@@ -180,4 +179,42 @@ async function searchFromQuery(number) {
         confidence: parseFloat(eq.r2.toPrecision(3)),
         scores: scores
     }
+}
+
+const rule = new schedule.RecurrenceRule();
+
+rule.hour = 03;
+rule.minute = 00;
+rule.second = 00;
+rule.dayOfWeek = new schedule.Range(0, 6);
+
+const updateDB = schedule.scheduleJob(rule, function() {
+    runScript('./db.js', function (err)
+    {
+        if(err) throw err;
+        console.log("finished calling db.js");
+    });
+});
+
+function runScript(scriptPath, callback) {
+
+    // keep track of whether callback has been invoked to prevent multiple invocations
+    var invoked = false;
+
+    var process = childProcess.fork(scriptPath);
+
+    // listen for errors as they may prevent the exit event from firing
+    process.on('error', function (err) {
+        if (invoked) return;
+        invoked = true;
+        callback(err);
+    });
+
+    // execute the callback once the process has finished running
+    process.on('exit', function (code) {
+        if (invoked) return;
+        invoked = true;
+        var err = code === 0 ? null : new Error('exit code ' + code);
+        callback(err);
+    });
 }
