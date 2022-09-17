@@ -10,6 +10,7 @@ var https = require('follow-redirects').https;
 const path = require('path');
 
 const PORT = process.env.PORT || 8080;
+const HOST = process.env.HOST || 'localhost';
 const app = express();
 
 const credentials = {
@@ -23,6 +24,8 @@ const credentials = {
         rejectUnauthorized: false,
     }
 }
+
+app.listen(PORT, HOST, console.log(`Server started on port ${PORT}`));
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static('../astro_client/build'));
@@ -48,8 +51,6 @@ app.post("/post", async (req, res) => {
         }
     });
 });
-
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
 
 app.get("/", function (req, res) {
     res.sendFile('astro_client/build/index.html', { root: "../" });
