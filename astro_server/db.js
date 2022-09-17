@@ -10,7 +10,6 @@ const credentials = {
     port: process.env.PG_PORT,
 }
 
-console.log(credentials);
 updateDB();
 
 async function updateDB() {
@@ -72,7 +71,7 @@ async function getTeams() {
         }
     }
 
-    console.log("Database updated in " + (Date.now() - start) + " milliseconds");
+    console.log("Finished teams in " + (Date.now() - start) + " ms");
     await pool.end();
 }
 
@@ -81,7 +80,7 @@ async function newMatchGet() {
     const pool = new Pool(credentials);
 
     var matchQuery = await pool.query(`SELECT MAX(id) as max_id FROM public.matches`);
-    var curId = matchQuery.rows[0].max_id == null ? matchQuery.rows[0].max_id : 0;
+    var curId = matchQuery.rows[0].max_id == null ? 0 : matchQuery.rows[0].max_id;
 
     console.log("Updating Match DB...");
     var start = Date.now();
@@ -99,16 +98,36 @@ async function newMatchGet() {
                 var redTeam = [0, 0];
                 var blueTeam = [0, 0];
 
-                match.teams.forEach((team) => {
-                    if (team.station.charAt(0) === 'r' || team.station.charAt(0) === 'R') {
-                        redTeam.splice(0, 0, team.teamNumber);
+                if (match.teams.length === 1) {
+                    if (match.scoreRedFinal > 0 && match.scoreBlueFinal <= 0) {
+                        redTeam.splice(0, 0, match.teams[0]);
                     }
-                    else {
-                        blueTeam.splice(0, 0, team.teamNumber);
+                    else if (match.scoreBlueFinal > 0 && match.scoreRedFinal <= 0) {
+                        blueTeam.splice(0, 0, match.teams[0]);
                     }
-                });
+                }
+                else if (match.teams.length === 2 && match.teams[0].station.charAt[0] === match.teams[1].station.charAt[0]) {
+                    if (match.scoreRedFinal > 0 && match.scoreBlueFinal <= 0) {
+                        redTeam.splice(0, 0, match.teams[0]);
+                        redTeam.splice(0, 0, match.teams[1]);
+                    }
+                    else if (match.scoreBlueFinal > 0 && match.scoreRedFinal <= 0) {
+                        blueTeam.splice(0, 0, match.teams[0]);
+                        blueTeam.splice(0, 0, match.teams[1]);
+                    }
+                }
+                else {
+                    match.teams.forEach((team) => {
+                        if (team.station.charAt(0) === 'r' || team.station.charAt(0) === 'R') {
+                            redTeam.splice(0, 0, team.teamNumber);
+                        }
+                        if (team.station.charAt(0) === 'b' || team.station.charAt(0) === 'B') {
+                            blueTeam.splice(0, 0, team.teamNumber);
+                        }
+                    });
+                }
 
-
+                //            1      2                     3                    4                      5                   6                   7                    8   
                 var values = [curId, match.scoreBlueFinal, match.scoreRedFinal, match.actualStartTime, Number(redTeam[0]), Number(redTeam[1]), Number(blueTeam[0]), Number(blueTeam[1])];
                 var dbText = `INSERT INTO public.matches VALUES ($1, $2, $3, $4, ARRAY [CAST ($5 as numeric), CAST ($6 as numeric)], ARRAY [CAST ($7 as numeric), CAST ($8 as numeric)])`;
 
@@ -117,7 +136,7 @@ async function newMatchGet() {
         }
     }
 
-    console.log("finished in " + (Date.now() - start) + " ms");
+    console.log("finished matches in " + (Date.now() - start) + " ms");
     await pool.end();
 }
 
