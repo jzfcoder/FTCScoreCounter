@@ -4,6 +4,7 @@ const express = require('express');
 const schedule = require('node-schedule');
 const { Pool } = require('pg');
 const childProcess = require('child_process');
+require('dotenv').config();
 
 const path = require('path');
 

@@ -10,6 +10,7 @@ const credentials = {
     port: process.env.PG_PORT,
 }
 
+console.log(credentials);
 updateDB();
 
 async function updateDB() {
