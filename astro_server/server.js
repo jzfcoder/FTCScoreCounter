@@ -9,8 +9,8 @@ var https = require('follow-redirects').https;
 
 const path = require('path');
 
-const PORT = process.env.PORT || 8080;
-const HOST = process.env.HOST || 'localhost';
+const PORT = process.env.PORT || 80;
+const HOST = process.env.HOST || 'ec2-34-220-119-128.us-west-2.compute.amazonaws.com';
 const app = express();
 
 const credentials = {
@@ -25,15 +25,14 @@ const credentials = {
     }
 }
 
-app.listen(PORT, HOST, console.log(`Server started on port ${PORT}`));
+app.listen(PORT, HOST, console.log(`Server started on port ${PORT} with host ${HOST}`));
 
-if (process.env.NODE_ENV === "production") {
+	console.log("running on production");
     app.use(express.static('../astro_client/build'));
     app.use(express.json());
     app.get('*', (req, res) => {
         req.sendFile(path.resolve('astro_client/build/index.html', { root: "../" }));
     });
-}
 
 app.post("/post", async (req, res) => {
     const queryRes = await searchFromQuery(req.body.name);
