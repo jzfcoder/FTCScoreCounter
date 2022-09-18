@@ -136,10 +136,11 @@ async function searchFromQuery(number) {
     var avg = 0;
     var sum = 0;
     var scores = [];
+    var isRed = false;
 
     if (later.rows.length > 0) {
-        const isRed = later.rows[0].redteams[0] === num || later.rows.redteams[1] === num;
         for (var row of later.rows) {
+            isRed = row.redteams[0] === num || row.redteams[1] === num;
             if (isRed) {
                 sum += Number(row.redscore);
                 scores.push(Number(row.redscore));
