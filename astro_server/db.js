@@ -100,20 +100,20 @@ async function newMatchGet() {
 
                 if (match.teams.length === 1) {
                     if (match.scoreRedFinal > 0 && match.scoreBlueFinal <= 0) {
-                        redTeam.splice(0, 0, match.teams[0]);
+                        redTeam.splice(0, 0, match.teams[0].teamNumber);
                     }
                     else if (match.scoreBlueFinal > 0 && match.scoreRedFinal <= 0) {
-                        blueTeam.splice(0, 0, match.teams[0]);
+                        blueTeam.splice(0, 0, match.teams[0].teamNumber);
                     }
                 }
                 else if (match.teams.length === 2 && match.teams[0].station.charAt[0] === match.teams[1].station.charAt[0]) {
                     if (match.scoreRedFinal > 0 && match.scoreBlueFinal <= 0) {
-                        redTeam.splice(0, 0, match.teams[0]);
-                        redTeam.splice(0, 0, match.teams[1]);
+                        redTeam.splice(0, 0, match.teams[0].teamNumber);
+                        redTeam.splice(0, 0, match.teams[1].teamNumber);
                     }
                     else if (match.scoreBlueFinal > 0 && match.scoreRedFinal <= 0) {
-                        blueTeam.splice(0, 0, match.teams[0]);
-                        blueTeam.splice(0, 0, match.teams[1]);
+                        blueTeam.splice(0, 0, match.teams[0].teamNumber);
+                        blueTeam.splice(0, 0, match.teams[1].teamNumber);
                     }
                 }
                 else {
