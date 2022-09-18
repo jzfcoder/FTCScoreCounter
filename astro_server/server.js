@@ -138,7 +138,7 @@ async function searchFromQuery(number) {
     var scores = [];
 
     if (later.rows.length > 0) {
-        const isRed = later.rows[0].redteams.includes(num);
+        const isRed = later.rows[0].redteams[0] === num || later.rows.redteams[1] === num;
         for (var row of later.rows) {
             if (isRed) {
                 sum += Number(row.redscore);
