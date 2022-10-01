@@ -265,6 +265,7 @@ td {
 
 .row {
   padding: 5px 5px 5px 5px;
+  min-height: 50px;
 }
 
 .label {
@@ -277,7 +278,7 @@ td {
 
 .numInput {
   width: 45px;
-  height: 30px;
+  height: 60px;
   position: relative;
   border: 1px solid #CCC;
   border-radius: 3px;
@@ -291,14 +292,14 @@ td {
   width: 100%;
   height: 100%;
   padding: 3px 15px 0px 4px;
-  font-size: 18px;
+  font-size: 25px;
   box-sizing: border-box;
 }
 
 .arrow {
   background: #F2F2F2;
   height: 50%;
-  width: 20px;
+  width: 50px;
   position: absolute;
   top: 0;
   right: 0;

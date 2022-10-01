@@ -113,7 +113,7 @@ class Field extends Component {
   render() {
     return (
       <div className="row">
-        <label htmlFor={this.props.name} className="label">{this.props.label}</label>
+        <label htmlFor={this.props.name} className="label">{this.props.label + ":"}</label>
         <div className="numInput">
           <span className="arrow up" onClick={this.props.onClick} />
           <span className="arrow down" onClick={this.props.onClick} />
@@ -122,6 +122,7 @@ class Field extends Component {
             name={this.props.name}
             value={this.props.value}
             className={this.props.className}
+            style={{width:"100px"}}
             readOnly
           />
         </div>
