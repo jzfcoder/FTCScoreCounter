@@ -7,20 +7,57 @@ class CounterForm extends Component {
   state = {
     formState: {
       // list all objectives here (default value, weight)
-      firstObjective: [0, 10],
-      secondObjective: [0, 30],
-      thirdObjective: [0, 1],
       fourthObjective: [0, 3],
+
+      a_conePlacedInTerminal: [0, 1],
+
+      a_conesInGroundJunction: [0, 2],
+      a_conesOnLowJunction: [0, 3],
+      a_conesOnMediumJunction: [0, 4],
+      a_conesOnHighJunction: [0, 5],
+
+      a_robotParkedInSignalZone: [0, 10],
+      a_robotParkedInCustomSignalZone: [0, 20],
+      a_robotParkedInTerminal: [0, 2],
+
+      t_conePlacedInTerminal: [0, 1],
+      t_conesInGroundJunction: [0, 2],
+      t_conesOnLowJunction: [0, 3],
+      t_conesOnMediumJunction: [0, 4],
+      t_conesOnHighJunction: [0, 5],
+
+      e_robotParkedInTerminal: [0, 2],
+      e_junctionOwnedByCone: [0, 3],
+      e_junctionOwnedByBeacon: [0, 10],
+      e_completedCircuit: [0, 20],
     }
   };
 
   getRunningTotal = () => {
     // ref all objectives here
     const objectives = [
-      this.state.formState.firstObjective,
-      this.state.formState.secondObjective,
-      this.state.formState.thirdObjective,
       this.state.formState.fourthObjective,
+
+      this.state.formState.a_conePlacedInTerminal,
+      this.state.formState.a_conesInGroundJunction,
+      this.state.formState.a_conesOnLowJunction,
+      this.state.formState.a_conesOnMediumJunction,
+      this.state.formState.a_conesOnHighJunction,
+
+      this.state.formState.a_robotParkedInSignalZone,
+      this.state.formState.a_robotParkedInCustomSignalZone,
+      this.state.formState.a_robotParkedInTerminal,
+
+      this.state.formState.t_conePlacedInTerminal,
+      this.state.formState.t_conesInGroundJunction,
+      this.state.formState.t_conesOnLowJunction,
+      this.state.formState.t_conesOnMediumJunction,
+      this.state.formState.t_conesOnHighJunction,
+
+      this.state.formState.e_robotParkedInTerminal,
+      this.state.formState.e_junctionOwnedByCone,
+      this.state.formState.e_junctionOwnedByBeacon,
+      this.state.formState.e_completedCircuit,
     ];
 
     let sum = 0;
@@ -100,35 +137,126 @@ class Form extends Component {
         <Tabs total={this.props.runningTotal}>
           <div label="Auto" className="main" id="thing">
             <Field
-              name="firstObjective" // must match firstObjective
-              label="First Objective"
-              value={this.props.formState.firstObjective[0]}
-              className={this.props.formState.firstObjective[1]}
+              name="a_conePlacedInTerminal"
+              label="Cones placed in terminal"
+              value={this.props.formState.a_conePlacedInTerminal[0]}
+              className={this.props.formState.a_conePlacedInTerminal[1]}
               onClick={this.props.onClick}
             />
             <Field
-              name="secondObjective" // must match secondObjective
-              label="Second Objective"
-              value={this.props.formState.secondObjective[0]}
-              className={this.props.formState.secondObjective[1]}
+              name="a_conesInGroundJunction"
+              label="Cones placed in ground junction"
+              value={this.props.formState.a_conesInGroundJunction[0]}
+              className={this.props.formState.a_conesInGroundJunction[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="a_conesOnLowJunction"
+              label="Cones placed on low junction"
+              value={this.props.formState.a_conesOnLowJunction[0]}
+              className={this.props.formState.a_conesOnLowJunction[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="a_conesOnMediumJunction"
+              label="Cones placed on medium junction"
+              value={this.props.formState.a_conesOnMediumJunction[0]}
+              className={this.props.formState.a_conesOnMediumJunction[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="a_conesOnHighJunction"
+              label="Cones placed on high junction"
+              value={this.props.formState.a_conesOnHighJunction[0]}
+              className={this.props.formState.a_conesOnHighJunction[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="a_robotParkedInSignalZone"
+              label="Robots parked in correct signal Zone"
+              value={this.props.formState.a_robotParkedInSignalZone[0]}
+              className={this.props.formState.a_robotParkedInSignalZone[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="a_robotParkedInCustomSignalZone"
+              label="Robots parked in correct CUSTOM signal zone"
+              value={this.props.formState.a_robotParkedInCustomSignalZone[0]}
+              className={this.props.formState.a_robotParkedInCustomSignalZone[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="a_robotParkedInTerminal"
+              label="Robots parked in terminal"
+              value={this.props.formState.a_robotParkedInTerminal[0]}
+              className={this.props.formState.a_robotParkedInTerminal[1]}
               onClick={this.props.onClick}
             />
           </div>
           <div label="Driver Controlled" className="main">
             <Field
-              name="thirdObjective" // must match third objective
-              label="Third Objective"
-              value={this.props.formState.thirdObjective[0]}
-              className={this.props.formState.thirdObjective[1]}
+              name="t_conePlacedInTerminal"
+              label="Cones placed in terminal"
+              value={this.props.formState.t_conePlacedInTerminal[0]}
+              className={this.props.formState.a_conePlacedInTerminal[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="t_conesInGroundJunction"
+              label="Cones in ground junction"
+              value={this.props.formState.t_conesInGroundJunction[0]}
+              className={this.props.formState.t_conesInGroundJunction[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="t_conesOnLowJunction"
+              label="Cones on low junction"
+              value={this.props.formState.t_conesOnLowJunction[0]}
+              className={this.props.formState.t_conesOnLowJunction[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="t_conesOnMediumJunction"
+              label="Cones on medium junction"
+              value={this.props.formState.t_conesOnMediumJunction[0]}
+              className={this.props.formState.t_conesOnMediumJunction[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="t_conesOnHighJunction"
+              label="Cones on high junction"
+              value={this.props.formState.t_conesOnHighJunction[0]}
+              className={this.props.formState.t_conesOnHighJunction[1]}
               onClick={this.props.onClick}
             />
           </div>
           <div label="Endgame" className="main">
             <Field
-              name="fourthObjective" // must match fourth objective
-              label="Fourth Objective"
-              value={this.props.formState.fourthObjective[0]}
-              className={this.props.formState.fourthObjective[1]}
+              name="e_robotParkedInTerminal" // must match fourth objective
+              label="Robots parked in terminal"
+              value={this.props.formState.e_robotParkedInTerminal[0]}
+              className={this.props.formState.e_robotParkedInTerminal[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="e_junctionOwnedByCone"
+              label="Junctions owned by cone"
+              value={this.props.formState.e_junctionOwnedByCone[0]}
+              className={this.props.formState.e_junctionOwnedByCone[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="e_junctionOwnedByBeacon"
+              label="Junctions owned by beacon"
+              value={this.props.formState.e_junctionOwnedByBeacon[0]}
+              className={this.props.formState.e_junctionOwnedByBeacon[1]}
+              onClick={this.props.onClick}
+            />
+            <Field
+              name="e_completedCircuit"
+              label="Completed Circuit"
+              value={this.props.formState.e_completedCircuit[0]}
+              className={this.props.formState.e_completedCircuit[1]}
               onClick={this.props.onClick}
             />
           </div>
