@@ -80,6 +80,7 @@ const TournamentForm = () => {
 			if (!exists) {
 				if (teams.length !== 0) { setTeams([...teams, result.teaminfo]); }
 				else { setTeams([result.teaminfo]); }
+				setSelected(result.teaminfo);
 			}
 		}
 		else { alert("Team not Found"); }
@@ -105,51 +106,7 @@ const TournamentForm = () => {
 				<button className="tablink active">Tournament Simulator</button>
 			</div>
 
-			<Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{
-				fullScreen: {
-					enable: false
-				},
-				background: {
-					color: {
-						value: "#17182f",
-					},
-				},
-				fpsLimit: 120,
-				particles: {
-					color: {
-						value: "#ffffff",
-					},
-					move: {
-						direction: "none",
-						enable: true,
-						outModes: {
-							default: "bounce",
-						},
-						random: true,
-						speed: 0.25,
-						straight: false,
-					},
-					number: {
-						density: {
-							enable: true,
-							area: 800,
-						},
-						value: 80,
-					},
-					opacity: {
-						value: 0.5,
-					},
-					shape: {
-						type: "circle",
-					},
-					size: {
-						value: { min: 1, max: 5 },
-					},
-				},
-				detectRetina: false,
-			}} style={{ zIndex: -100, position: "fixed", display: "block", width: "150%", height: "150%" }} />
-
-			<div className="bg">
+			<div className="main" style={{minWidth: "600px"}}>
 				<form onSubmit={handleSubmit}>
 					<label htmlFor="name">Search By Team Number: </label>
 					<input type="text" id="name" className="searchInput" required />
@@ -209,6 +166,50 @@ const TournamentForm = () => {
 				</table>
 				<Graph team={selected} />
 			</div>
+
+			<Particles id="tsparticles" init={particlesInit} loaded={particlesLoaded} options={{
+				fullScreen: {
+					enable: false
+				},
+				background: {
+					color: {
+						value: "#17182f",
+					},
+				},
+				fpsLimit: 120,
+				particles: {
+					color: {
+						value: "#ffffff",
+					},
+					move: {
+						direction: "none",
+						enable: true,
+						outModes: {
+							default: "bounce",
+						},
+						random: true,
+						speed: 0.25,
+						straight: false,
+					},
+					number: {
+						density: {
+							enable: true,
+							area: 800,
+						},
+						value: 80,
+					},
+					opacity: {
+						value: 0.5,
+					},
+					shape: {
+						type: "circle",
+					},
+					size: {
+						value: { min: 1, max: 5 },
+					},
+				},
+				detectRetina: false,
+			}} style={{ zIndex: -100, position: "absolute", display: "block", minWidth: "700px", minHeight: "900px"}} />
 		</>
 	);
 };

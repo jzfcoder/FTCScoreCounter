@@ -110,7 +110,7 @@ h2 {
 +----------------------------------------+
 */
 .searchInput {
-  width: 250px;
+  width: 100px;
   height: 30px;
   position: relative;
   border: 1px solid #CCC;
@@ -137,7 +137,8 @@ h2 {
   box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
   border-radius: 10px;
-  border-width: 0px;
+  border-width: 1px;
+  border-color: lightgray;
   font-family: Verdana;
 }
 
@@ -152,19 +153,6 @@ h2 {
 th {
   padding-left: 10px;
   padding-right: 10px;
-}
-
-.bg {
-  background: white;
-  margin: 20px auto;
-  max-width: 80%;
-  height: 80%;
-  min-height: 550px;
-  min-width: 550px;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: left;
-  color: black;
 }
 
 td {
