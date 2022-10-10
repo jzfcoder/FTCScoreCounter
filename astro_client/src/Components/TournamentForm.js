@@ -109,7 +109,7 @@ const TournamentForm = () => {
 			<div className="main" style={{minWidth: "600px"}}>
 				<form onSubmit={handleSubmit}>
 					<label htmlFor="name">Search By Team Number: </label>
-					<input type="text" id="name" className="searchInput" required />
+					<input type="number" id="name" className="searchInput" required />
 					<button type="submit" className="searchButton" style={{ color: "black"}}>{status}</button>
 				</form>
 				<table style={{ display: "inline" }}>
