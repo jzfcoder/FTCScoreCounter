@@ -53,6 +53,7 @@ class Tabs extends Component {
           }
 
           <button className="total">Total: {this.props.total}</button>
+          <button className="total" style={{color: "black"}}>Cones: {this.props.availCones}</button>
         </div>
 
         <div>

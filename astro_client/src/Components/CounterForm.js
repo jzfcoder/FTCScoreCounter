@@ -30,7 +30,8 @@ class CounterForm extends Component {
       e_junctionOwnedByCone: [0, 3],
       e_junctionOwnedByBeacon: [0, 10],
       e_completedCircuit: [0, 20],
-    }
+    },
+    conesAvailable: 30,
   };
 
   getRunningTotal = () => {
@@ -75,17 +76,44 @@ class CounterForm extends Component {
       inputField = inputField.nextElementSibling;
     }
     this.setState((prevState) => {
-      return {
-        formState: {
-          ...prevState.formState,
-          [inputField.name]: [
-            event.target.className === "arrow down"
-              ? Number(Math.max(inputField.value - 1, 0))
-              : Number(inputField.value) + 1,
-            Number(inputField.className)
-          ]
+      if(event.target.className === "arrow down")
+      {
+        let val = inputField.value;
+        let cones = prevState.conesAvailable;
+        if(val > 0)
+        {
+          val--;
+          cones++;
         }
-      };
+        return {
+          formState: {
+            ...prevState.formState,
+            [inputField.name]: [val, inputField.className]
+          },
+          conesAvailable: cones,
+        }
+      }
+      else
+      {
+        let val = inputField.value;
+        let cones = prevState.conesAvailable;
+        if(cones === 0)
+        {
+          alert("out of cones");
+        }
+        else
+        {
+          val++;
+          cones--;
+        }
+        return {
+          formState: {
+            ...prevState.formState,
+            [inputField.name]: [val, inputField.className]
+          },
+          conesAvailable: cones,
+        }
+      }
     });
   };
 
@@ -97,7 +125,9 @@ class CounterForm extends Component {
           formState={formState}
           onClick={this.onClick}
           runningTotal={this.getRunningTotal()}
+          availCones={this.state.conesAvailable}
         />
+        
       </div>
     );
   }
@@ -135,7 +165,7 @@ class Form extends Component {
   render() {
     return (
       <>
-        <Tabs total={this.props.runningTotal}>
+        <Tabs total={this.props.runningTotal} availCones={this.props.availCones}>
           <div label="Auto" className="main" id="thing">
             <Field
               name="a_conePlacedInTerminal"
