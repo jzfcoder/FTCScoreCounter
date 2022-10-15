@@ -57,7 +57,7 @@ async function getTeams() {
     const text = `INSERT INTO public."participatingTeams"(teamnumber, name) VALUES ($1, $2)`;
 
     while (curPage < maxPage) {
-        const body = await callFTCAPI(`/v2.0/2021/teams?page=${curPage + 1}`);
+        const body = await callFTCAPI(`/v2.0/2022/teams?page=${curPage + 1}`);
         curPage = body.pageCurrent;
         maxPage = body.pageTotal;
 
@@ -76,7 +76,7 @@ async function getTeams() {
 }
 
 async function newMatchGet() {
-    const eventList = await callFTCAPI(`/v2.0/2021/events`);
+    const eventList = await callFTCAPI(`/v2.0/2022/events`);
     const pool = new Pool(credentials);
 
     var matchQuery = await pool.query(`SELECT MAX(id) as max_id FROM public.matches`);
@@ -88,7 +88,7 @@ async function newMatchGet() {
     for (const event of eventList.events) {
         if (event.published) {
             var val = event.code;
-            var text = `/v2.0/2021/matches/${val}`;
+            var text = `/v2.0/2022/matches/${val}`;
 
             const eventBody = await callFTCAPI(text).catch((err) => { console.log("Error with " + val + ", " + err.message); });
 
