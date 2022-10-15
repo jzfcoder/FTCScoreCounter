@@ -83,7 +83,7 @@ class CounterForm extends Component {
         if(val > 0)
         {
           val--;
-          cones++;
+          if(inputField.name.includes('coneOn') || inputField.name.includes('coneIn') || inputField.name.includes('conePlaced')) {cones++;}
         }
         return {
           formState: {
@@ -97,14 +97,14 @@ class CounterForm extends Component {
       {
         let val = inputField.value;
         let cones = prevState.conesAvailable;
-        if(cones === 0)
+        if(cones === 0 && (inputField.name.includes('coneOn') || inputField.name.includes('coneIn') || inputField.name.includes('conePlaced')))
         {
           alert("out of cones");
         }
         else
         {
           val++;
-          cones--;
+          if(inputField.name.includes('coneOn') || inputField.name.includes('coneIn') || inputField.name.includes('conePlaced')) {cones--;}
         }
         return {
           formState: {
